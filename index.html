@@ -133,7 +133,7 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-4xl font-bold text-gray-800">The Five Pillars of the MBA Experience</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Your first year is an exercise in balancing priorities. Engage with Foster's vast resources across these five core areas to build a transformative experience.</p>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Your first year is an exercise in balancing priorities. Engage with Foster's resources across these five core areas to build a transformative experience.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
         accordions: {
             career: [
                 { title: 'Foster Career Management (FCM)', content: 'FCM is the central hub for your professional development. Visit the <a href="https://foster.uw.edu/academics/degree-programs/full-time-mba/career-management/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">FCM Website</a> to schedule coaching and view resources. <br><b>Strategic Recommendation:</b> Schedule an initial consultation with your assigned coach within the first month to establish a relationship and discuss preliminary goals.' },
-                { title: 'Career Coaches vs. Peer Advisors', content: 'Use your professional Career Coach for high-level strategy. Use second-year Peer Advisors for tactical preparation (e.g., company-specific mock interviews). Understanding their distinct roles is key to using them effectively.' },
+                { title: 'Career Coaches vs. Peer Advisors', content: 'Use your professional Career Coach for high-level strategy and practice mock-interviews. Use second-year Peer Advisors for tactical preparation (e.g., what are the types of questions companies have been asking? Information on role and company-specific recruiting process). Understanding their distinct roles is key to using them effectively.' },
                 { title: '✨ Career Path Explorer', isGemini: true, featureId: 'career-explorer', content: `
                     <p class="mb-4 text-gray-600">Select an industry and function to get an AI-generated overview of that career path, including key responsibilities, skills, and recruiting insights for a Foster MBA.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -254,10 +254,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div id="career-explorer-output" class="mt-4"></div>
                 `},
                 { title: 'Professional Clubs & Alumni Network', content: 'Clubs like the <a href="https://www.uwfostermbaa.com/consulting-society" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Foster Consulting Society (FCS)</a> and <a href="https://www.uwfostermbaa.com/tech-club" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Foster Tech Club (FTC)</a> provide essential preparation. The alumni network is a valuable resource for informational interviews.' },
-                { title: 'Mentorship Programs', content: 'The primary goal of these programs is developmental guidance. Focus on building a genuine professional relationship with your mentor. Learn more at the <a href="https://foster.uw.edu/careers/full-time-and-evening-mba-career-management/mentor-program/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Mentor Program page</a>.' }
+                { title: 'Mentorship Programs', content: 'The primary goal of these programs is developmental guidance. Many clubs will host networking events and have resources like a interview question bank for specific jobs. Focus on building a genuine professional relationship with your mentor. Learn more at the <a href="https://foster.uw.edu/careers/full-time-and-evening-mba-career-management/mentor-program/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Mentor Program page</a>.' }
             ],
             academics: [
-                { title: 'MBA Program Office & Your Core Team', content: 'The <a href="https://foster.uw.edu/academics/degree-programs/full-time-mba/academics/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">MBA Program Office</a> manages academic policies. Your Core Team is your primary collaborative unit. Team effectiveness is a critical component of academic success.' },
+                { title: 'MBA Program Office & Your Core Team', content: 'The <a href="https://foster.uw.edu/academics/degree-programs/full-time-mba/academics/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">MBA Program Office</a> manages academic policies. Your Core Team is your the team assigned to you at the beginning of the quarter. Do your best to stay true to the committments you made at the beginning of the year to keep the team aligned and effective.' },
                 { title: '✨ Academic Concept Clarifier', isGemini: true, featureId: 'concept-clarifier', content: `
                     <p class="mb-4 text-gray-600">Stuck on a core business concept? Enter a term below and get a simple explanation, an analogy, and key discussion points to help you master it.</p>
                     <div class="space-y-4 mb-4">
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button id="generate-concept-explanation" class="w-full bg-uw-purple text-white font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors">✨ Clarify Concept</button>
                     <div id="concept-clarifier-output" class="mt-4"></div>
                 `},
-                { title: 'Foster Business Library', content: 'The expert business research librarians are a key strategic asset. Visit the <a href="https://www.lib.washington.edu/foster" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Foster Business Library</a> website to book a consultation.' }
+                { title: 'Foster Business Library', content: 'The expert business research librarians are a key strategic asset, there are many resources within the library database that are useful like Pitchbook and IBISWorld. Visit the <a href="https://www.lib.washington.edu/foster" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Foster Business Library</a> website to book a consultation.' }
             ],
             community: [
                 { title: 'MBA Association (MBAA)', content: 'As the student government, the <a href="https://www.uwfostermbaa.com/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">MBAA</a> advocates for student interests and organizes major events. Participation offers a significant leadership opportunity.' },
@@ -293,11 +293,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div id="email-draftsman-output" class="mt-4"></div>
                 `},
                 { title: 'Student Clubs', content: 'Clubs are essential for professional development and networking. View a full list on the <a href="https://www.uwfostermbaa.com/clubs/#professional" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">MBAA Clubs page</a>.' },
-                { title: 'Signature Social Events', content: 'Weekly "TG" gatherings and Husky Football tailgates are primary venues for informal networking and community building across cohorts.' }
+                { title: 'Signature Social Events', content: 'Weekly pub clubs and TG gatherings and Husky Football tailgates are primary venues for informal networking and community building across cohorts.' }
             ],
             leadership: [
                 { title: 'Fritzky Leadership Fellows Program', content: 'This selective program for second-years develops advanced coaching and mentoring skills. An excellent credential for careers in consulting or general management. Learn more at the <a href="https://foster.uw.edu/centers/leadership/students/leadership-fellows/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Fritzky Fellows page</a>.' },
-                { title: 'Applied Strategy & Case Competitions', content: 'The Applied Strategy project is a significant resume-building experience, providing a tangible consulting engagement with a major company. Case competitions hone presentation and problem-solving skills.' },
+                { title: 'Applied Strategy & Case Competitions', content: 'The Applied Strategy project is a significant resume-building experience, providing a tangible consulting engagement with a major company. You will have an opportunity to select which projects are interesting to you prior to the start of the Winter quarter. Case competitions hone presentation and problem-solving skills.' },
                 { title: 'Board Fellows Program', content: 'This competitive program places students on a non-profit board, offering unique insights into organizational governance. It is ideal for those interested in social impact or nonprofit management. Visit the <a href="https://foster.uw.edu/centers/consulting-and-business-development-center/graduate-student-programs/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Board Fellows page</a> to apply.' },
                 { title: 'Buerk Center for Entrepreneurship', content: 'The <a href="https://foster.uw.edu/centers/buerk-ctr-entrepreneurship/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Buerk Center</a> is the campus hub for innovation. Courses like Angel Investing are highly valuable for students interested in venture capital or product management.' }
             ],
