@@ -3,59 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Foster Blueprint: A Strategic Guide</title>
+    <title>Foster MBA Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: UW Neutral & Accent -->
-    <!-- Application Structure Plan: This version simplifies the interface by removing the time-based prioritization layer. The focus is now exclusively on the 5-pillar structure, providing a comprehensive and evergreen resource guide. Direct hyperlinks to all key resources are embedded within the accordion content to make the guide more actionable and useful as a direct portal to official sources. Gemini API features are added to provide dynamic, AI-powered assistance for key MBA tasks like career exploration and networking. -->
-    <!-- Visualization & Content Choices: 
-        - Report Info: The 5 Pillars (Career, Academics, etc.). Goal: Inform & Guide. Presentation: Accordion interface within each pillar section. Interaction: Click to expand/collapse. Justification: This allows students to easily navigate to their area of interest.
-        - Feature: Hyperlinks. Goal: Provide direct access to resources. Presentation: Standard `<a>` tags embedded in the text, styled for visibility. Justification: Increases the utility of the guide by making it a direct portal to official sources.
-        - Feature: Gemini API Integrations. Goal: Provide intelligent assistance. Presentation: Interactive forms within relevant accordions. Interaction: User inputs data, clicks a button to call the Gemini API, and receives a generated text response. Justification: Adds significant value by solving common student problems (writing emails, exploring careers) directly within the application.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F8F7F5;
-            color: #333333;
+            background-color: #f3f4f6;
         }
         .uw-purple { color: #4B2E83; }
-        .uw-gold { color: #B7A57A; }
         .bg-uw-purple { background-color: #4B2E83; }
+        .border-uw-purple { border-color: #4B2E83; }
+        .uw-gold { color: #B7A57A; }
         .bg-uw-gold { background-color: #B7A57A; }
-        .border-uw-gold { border-color: #B7A57A; }
-        .nav-link {
-            transition: color 0.3s ease, border-bottom-color 0.3s ease;
-            border-bottom: 2px solid transparent;
+        .platform-card {
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
         }
-        .nav-link:hover, .nav-link.active {
-            color: #4B2E83;
-            border-bottom-color: #4B2E83;
-        }
-        .pillar-icon {
-            font-size: 2.5rem;
-            line-height: 1;
+        .platform-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
         }
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
-        }
-        .pillar-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .pillar-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }
-        .gemini-feature {
-            border-top: 1px solid #e5e7eb;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
         }
         .gemini-output {
             white-space: pre-wrap;
@@ -66,19 +40,10 @@
             margin-top: 1rem;
             font-size: 0.9rem;
             line-height: 1.6;
+            position: relative;
         }
-        .gemini-output h1, .gemini-output h2, .gemini-output h3, .gemini-output h4 {
-            font-weight: 600;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-        }
-        .gemini-output h2 { font-size: 1.1rem; }
-        .gemini-output h3 { font-size: 1rem; }
-        .gemini-output ul {
-            list-style-type: disc;
-            padding-left: 1.5rem;
-            margin-top: 0.5rem;
-        }
+        .gemini-output h1, .gemini-output h2, .gemini-output h3, .gemini-output h4 { font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .gemini-output ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.5rem; }
         .gemini-output li { margin-bottom: 0.25rem; }
         .gemini-output p { margin-bottom: 0.5rem; }
         .loader {
@@ -90,311 +55,295 @@
             animation: spin 1s linear infinite;
             margin: 1rem auto;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .framework-pillar {
+            transition: background-color 0.3s ease;
+        }
+        .framework-platform {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .framework-pillar:hover .framework-platform {
+            opacity: 0.6;
+            transform: scale(0.98);
+        }
+        .framework-pillar .framework-platform:hover {
+            opacity: 1;
+            transform: scale(1.05);
+            border-color: #4B2E83;
+            box-shadow: 0 0 15px rgba(75, 46, 131, 0.3);
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <header id="header" class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="#hero" class="text-xl font-bold uw-purple">The Foster Blueprint</a>
-            <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
-                <a href="#career" class="nav-link py-1">Career</a>
-                <a href="#academics" class="nav-link py-1">Academics</a>
-                <a href="#community" class="nav-link py-1">Community</a>
-                <a href="#leadership" class="nav-link py-1">Leadership</a>
-                <a href="#wellbeing" class="nav-link py-1">Well-being</a>
-            </div>
-            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
-        </nav>
-        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 border-t border-gray-200">
-            <a href="#career" class="block py-2 text-gray-700 hover:text-uw-purple">Career</a>
-            <a href="#academics" class="block py-2 text-gray-700 hover:text-uw-purple">Academics</a>
-            <a href="#community" class="block py-2 text-gray-700 hover:text-uw-purple">Community</a>
-            <a href="#leadership" class="block py-2 text-gray-700 hover:text-uw-purple">Leadership</a>
-            <a href="#wellbeing" class="block py-2 text-gray-700 hover:text-uw-purple">Well-being</a>
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-2xl font-bold uw-purple">Foster MBA Hub</h1>
+            <p class="text-gray-600">Your strategic guide to the Foster digital ecosystem.</p>
         </div>
     </header>
 
-    <main>
-        <section id="hero" class="py-20 md:py-24 bg-white">
-            <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-6xl font-bold uw-purple leading-tight">A Guide for Your First Year</h1>
-                <p class="mt-6 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">This guide provides a framework for navigating the five core pillars of the Foster MBA experience. It is designed to help you focus your energy on the resources and opportunities that will drive your success.</p>
-            </div>
-        </section>
-        
-        <section id="pillars" class="py-20 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold text-gray-800">The Five Pillars of the MBA Experience</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Your first year is an exercise in balancing priorities. Engage with Foster's resources across these five core areas to build a transformative experience.</p>
-                </div>
+    <main class="container mx-auto px-6 py-12">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <a href="#career" class="pillar-card block p-8 bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
-                        <div class="pillar-icon uw-purple">💼</div>
-                        <h3 class="text-2xl font-bold mt-4 mb-2 text-gray-800">Career Advancement</h3>
-                        <p class="text-gray-600">Chart your course to internships and full-time roles with coaching, recruiting events, and a strong alumni network.</p>
-                    </a>
-                    <a href="#academics" class="pillar-card block p-8 bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
-                        <div class="pillar-icon uw-purple">📚</div>
-                        <h3 class="text-2xl font-bold mt-4 mb-2 text-gray-800">Academic Excellence</h3>
-                        <p class="text-gray-600">Succeed in the classroom by leveraging faculty, your core team, and the resources of the Foster Business Library.</p>
-                    </a>
-                    <a href="#community" class="pillar-card block p-8 bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
-                        <div class="pillar-icon uw-purple">🤝</div>
-                        <h3 class="text-2xl font-bold mt-4 mb-2 text-gray-800">Community & Networking</h3>
-                        <p class="text-gray-600">Build your network through student clubs, social events, and the MBA Association.</p>
-                    </a>
-                    <a href="#leadership" class="pillar-card block p-8 bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
-                        <div class="pillar-icon uw-purple">🚀</div>
-                        <h3 class="text-2xl font-bold mt-4 mb-2 text-gray-800">Leadership Development</h3>
-                        <p class="text-gray-600">Grow beyond the classroom with hands-on programs like Board Fellows, Applied Strategy, and case competitions.</p>
-                    </a>
-                    <a href="#wellbeing" class="pillar-card block p-8 bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
-                        <div class="pillar-icon uw-purple">❤️</div>
-                        <h3 class="text-2xl font-bold mt-4 mb-2 text-gray-800">Health & Well-being</h3>
-                        <p class="text-gray-600">Prioritize your mental and physical health with access to counseling, medical services, and fitness facilities.</p>
-                    </a>
-                </div>
+        <!-- Key Platforms Section -->
+        <section id="platforms">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">The Five Key Platforms</h2>
+            <p class="text-gray-600 mb-6">Your entire MBA experience is managed across these five core platforms. Know their purpose to find what you need, fast.</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <a href="#" class="platform-card block bg-white p-4 rounded-lg border border-gray-200 text-center">
+                    <img src="https://img.icons8.com/color/96/microsoft-sharepoint-2019.png" alt="SharePoint Logo" class="w-12 h-12 mx-auto mb-3"/>
+                    <h3 class="font-semibold text-gray-900">SharePoint</h3>
+                    <p class="text-xs text-gray-500 mt-1">Document Library</p>
+                </a>
+                <a href="#" class="platform-card block bg-white p-4 rounded-lg border border-gray-200 text-center">
+                     <img src="https://img.icons8.com/color/48/000000/canvas-student.png" alt="Canvas Logo" class="w-12 h-12 mx-auto mb-3"/>
+                    <h3 class="font-semibold text-gray-900">Canvas</h3>
+                    <p class="text-xs text-gray-500 mt-1">The Classroom</p>
+                </a>
+                <a href="#" class="platform-card block bg-white p-4 rounded-lg border border-gray-200 text-center">
+                    <img src="https://img.icons8.com/color/48/000000/slack-new.png" alt="Slack Logo" class="w-12 h-12 mx-auto mb-3"/>
+                    <h3 class="font-semibold text-gray-900">Slack</h3>
+                    <p class="text-xs text-gray-500 mt-1">Communication Hub</p>
+                </a>
+                <a href="#" class="platform-card block bg-white p-4 rounded-lg border border-gray-200 text-center">
+                    <img src="https://img.icons8.com/fluency/48/000000/briefcase.png" alt="Briefcase Icon" class="w-12 h-12 mx-auto mb-3"/>
+                    <h3 class="font-semibold text-gray-900">Foster Jobs</h3>
+                    <p class="text-xs text-gray-500 mt-1">Career Portal</p>
+                </a>
+                <a href="#" class="platform-card block bg-white p-4 rounded-lg border border-gray-200 text-center">
+                     <img src="https://img.icons8.com/color/48/000000/conference-call.png" alt="Community Icon" class="w-12 h-12 mx-auto mb-3"/>
+                    <h3 class="font-semibold text-gray-900">MBAA Website</h3>
+                    <p class="text-xs text-gray-500 mt-1">Community Hub</p>
+                </a>
             </div>
         </section>
 
-        <section id="career" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold text-gray-800">Pillar 1: Career Advancement</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">The Foster career ecosystem is a multi-layered support system. Proactive engagement is key to leveraging each resource for maximum impact.</p>
+        <div class="border-t border-gray-200 my-12"></div>
+
+        <!-- MECE Framework Section -->
+        <section id="framework">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Navigating the Foster Ecosystem</h2>
+            <p class="text-gray-600 mb-8 text-center max-w-3xl mx-auto">Don't know where to look? Start with your goal. Hover over a pillar to see the primary platform and its key supporting tools for that task.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Academics Pillar -->
+                <div class="framework-pillar p-4 rounded-lg">
+                    <h3 class="text-xl font-bold uw-purple mb-4 text-center">📚 Academics</h3>
+                    <div class="space-y-3">
+                        <div class="framework-platform bg-white p-4 rounded-lg border-2 border-gray-200">
+                            <p class="font-bold text-center">Canvas</p>
+                            <p class="text-xs text-center text-gray-500">Primary Platform</p>
+                        </div>
+                        <div class="framework-platform bg-white p-3 rounded-lg border-2 border-gray-200">
+                            <p class="font-semibold text-center text-sm">SharePoint</p>
+                            <p class="text-xs text-center text-gray-500">Supporting Docs</p>
+                        </div>
+                        <div class="framework-platform bg-white p-3 rounded-lg border-2 border-gray-200">
+                            <p class="font-semibold text-center text-sm">Slack</p>
+                            <p class="text-xs text-center text-gray-500">Team Communication</p>
+                        </div>
+                    </div>
                 </div>
-                <div id="career-accordion" class="space-y-4 max-w-4xl mx-auto"></div>
+                <!-- Career Pillar -->
+                <div class="framework-pillar p-4 rounded-lg">
+                    <h3 class="text-xl font-bold uw-purple mb-4 text-center">💼 Career</h3>
+                    <div class="space-y-3">
+                        <div class="framework-platform bg-white p-4 rounded-lg border-2 border-gray-200">
+                            <p class="font-bold text-center">Foster Jobs</p>
+                            <p class="text-xs text-center text-gray-500">Primary Platform</p>
+                        </div>
+                        <div class="framework-platform bg-white p-3 rounded-lg border-2 border-gray-200">
+                            <p class="font-semibold text-center text-sm">SharePoint</p>
+                            <p class="text-xs text-center text-gray-500">Recruiting Guides</p>
+                        </div>
+                        <div class="framework-platform bg-white p-3 rounded-lg border-2 border-gray-200">
+                            <p class="font-semibold text-center text-sm">MBAA Website</p>
+                            <p class="text-xs text-center text-gray-500">Club Events</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Community Pillar -->
+                <div class="framework-pillar p-4 rounded-lg">
+                    <h3 class="text-xl font-bold uw-purple mb-4 text-center">🤝 Community</h3>
+                    <div class="space-y-3">
+                        <div class="framework-platform bg-white p-4 rounded-lg border-2 border-gray-200">
+                            <p class="font-bold text-center">MBAA Website</p>
+                            <p class="text-xs text-center text-gray-500">Primary Platform</p>
+                        </div>
+                        <div class="framework-platform bg-white p-3 rounded-lg border-2 border-gray-200">
+                            <p class="font-semibold text-center text-sm">Slack</p>
+                            <p class="text-xs text-center text-gray-500">Social Channels</p>
+                        </div>
+                        <div class="framework-platform bg-white p-3 rounded-lg border-2 border-gray-200">
+                            <p class="font-semibold text-center text-sm">SharePoint</p>
+                            <p class="text-xs text-center text-gray-500">Club Documents</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Admin Pillar -->
+                <div class="framework-pillar p-4 rounded-lg">
+                    <h3 class="text-xl font-bold uw-purple mb-4 text-center">⚙️ Program Admin</h3>
+                    <div class="space-y-3">
+                        <div class="framework-platform bg-white p-4 rounded-lg border-2 border-gray-200">
+                            <p class="font-bold text-center">SharePoint</p>
+                            <p class="text-xs text-center text-gray-500">Primary Platform</p>
+                        </div>
+                        <div class="framework-platform bg-white p-3 rounded-lg border-2 border-gray-200">
+                            <p class="font-semibold text-center text-sm">MyUW</p>
+                            <p class="text-xs text-center text-gray-500">Tuition & University Admin</p>
+                        </div>
+                        <div class="framework-platform bg-white p-3 rounded-lg border-2 border-gray-200">
+                            <p class="font-semibold text-center text-sm">Slack</p>
+                            <p class="text-xs text-center text-gray-500">Program Announcements</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="academics" class="py-20 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold text-gray-800">Pillar 2: Academic Excellence</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Success in Foster's rigorous curriculum is a collaborative effort. This section outlines how to navigate the support system of faculty, TAs, and your peers.</p>
-                </div>
-                <div id="academics-accordion" class="space-y-4 max-w-4xl mx-auto"></div>
+        <div class="border-t border-gray-200 my-12"></div>
+
+        <!-- Class Resources Section -->
+        <section id="class-resources">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">Class Planning Resources</h2>
+            <p class="text-gray-600 mb-6">Use these essential student-run tools to plan your electives and get the most out of your academics.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <a href="https://docs.google.com/spreadsheets/d/1AoeaQz23S8dW1_NsM8WkIN_3OhtcW7_ko3vUnNK292U/edit?gid=447162178#gid=447162178" target="_blank" rel="noopener noreferrer" class="platform-card block bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Peer Class Feedback Sheet</h3>
+                    <p class="text-gray-600">A comprehensive Google Sheet with detailed reviews, ratings, and advice from students who have previously taken Foster's elective courses.</p>
+                </a>
+                <a href="https://www.dawg-finder.com/" target="_blank" rel="noopener noreferrer" class="platform-card block bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Dawg Finder</h3>
+                    <p class="text-gray-600">A powerful tool that compiles course schedules, enrollment status, professor ratings, and average difficulty for all UW classes.</p>
+                </a>
             </div>
         </section>
 
-        <section id="community" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold text-gray-800">Pillar 3: Community & Networking</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">The relationships built at Foster are a foundational component of the MBA's long-term value. Engaging with the community is central to the experience.</p>
-                </div>
-                <div id="community-accordion" class="space-y-4 max-w-4xl mx-auto"></div>
-            </div>
+        <div class="border-t border-gray-200 my-12"></div>
+
+        <!-- AI Toolkit Section -->
+        <section id="ai-toolkit">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">AI-Powered Toolkit</h2>
+            <p class="text-gray-600 mb-6">Leverage these tools to accelerate common MBA tasks, from clarifying concepts to drafting outreach.</p>
+            <div id="ai-accordion" class="space-y-4"></div>
         </section>
 
-        <section id="leadership" class="py-20 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold text-gray-800">Pillar 4: Leadership Development</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Leadership development at Foster is rooted in experiential learning. This section details the application-based programs that allow you to solve real-world business challenges.</p>
-                </div>
-                <div id="leadership-accordion" class="space-y-4 max-w-4xl mx-auto"></div>
-            </div>
-        </section>
-
-        <section id="wellbeing" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold text-gray-800">Pillar 5: Health & Well-being</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Prioritizing well-being is a critical component of a sustainable and successful MBA experience. The university provides comprehensive resources to support your health.</p>
-                </div>
-                <div id="wellbeing-accordion" class="space-y-4 max-w-4xl mx-auto"></div>
-            </div>
-        </section>
     </main>
 
-    <footer class="bg-uw-purple text-white">
-        <div class="container mx-auto px-6 py-12 text-center">
-            <h3 class="text-2xl font-bold">A Strategic Approach to Your MBA</h3>
-            <p class="mt-4 max-w-3xl mx-auto text-gray-300">Foster provides the blueprint, the tools, and the support. It is up to you to build the experience. By engaging with these resources thoughtfully and strategically, you will build a foundation of knowledge, skills, and relationships that will serve you for a lifetime.</p>
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-6 py-4 text-center text-gray-400 text-sm">
+            <p>&copy; Foster School of Business MBA Program</p>
         </div>
     </footer>
 
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const data = {
-        accordions: {
-            career: [
-                { title: 'Foster Career Management (FCM)', content: 'FCM is the central hub for your professional development. Visit the <a href="https://foster.uw.edu/academics/degree-programs/full-time-mba/career-management/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">FCM Website</a> to schedule coaching and view resources. <br><b>Strategic Recommendation:</b> Schedule an initial consultation with your assigned coach within the first month to establish a relationship and discuss preliminary goals.' },
-                { title: 'Career Coaches vs. Peer Advisors', content: 'Use your professional Career Coach for high-level strategy and practice mock-interviews. Use second-year Peer Advisors for tactical preparation (e.g., what are the types of questions companies have been asking? Information on role and company-specific recruiting process). Understanding their distinct roles is key to using them effectively.' },
-                { title: '✨ Career Path Explorer', isGemini: true, featureId: 'career-explorer', content: `
-                    <p class="mb-4 text-gray-600">Select an industry and function to get an AI-generated overview of that career path, including key responsibilities, skills, and recruiting insights for a Foster MBA.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label for="career-industry" class="block text-sm font-medium text-gray-700">Industry</label>
-                            <select id="career-industry" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm rounded-md">
-                                <option>Technology</option>
-                                <option>Consulting</option>
-                                <option>Finance</option>
-                                <option>Marketing</option>
-                                <option>Healthcare</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="career-function" class="block text-sm font-medium text-gray-700">Function</label>
-                            <input type="text" id="career-function" placeholder="e.g., Product Management" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm">
-                        </div>
+    const aiTools = [
+        { 
+            title: '✨ Career Path Explorer', 
+            content: `
+                <p class="mb-4 text-gray-600">Select an industry and function to get an AI-generated overview of that career path, including key responsibilities, skills, and recruiting insights for a Foster MBA.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="career-industry" class="block text-sm font-medium text-gray-700">Industry</label>
+                        <select id="career-industry" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm rounded-md">
+                            <option>Technology</option><option>Consulting</option><option>Finance</option><option>Marketing</option><option>Healthcare</option>
+                        </select>
                     </div>
-                    <button id="generate-career-path" class="w-full bg-uw-purple text-white font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors">✨ Generate Career Overview</button>
-                    <div id="career-explorer-output" class="mt-4"></div>
-                `},
-                { title: 'Professional Clubs & Alumni Network', content: 'Clubs like the <a href="https://www.uwfostermbaa.com/consulting-society" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Foster Consulting Society (FCS)</a> and <a href="https://www.uwfostermbaa.com/tech-club" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Foster Tech Club (FTC)</a> provide essential preparation. The alumni network is a valuable resource for informational interviews.' },
-                { title: 'Mentorship Programs', content: 'The primary goal of these programs is developmental guidance. Many clubs will host networking events and have resources like a interview question bank for specific jobs. Focus on building a genuine professional relationship with your mentor. Learn more at the <a href="https://foster.uw.edu/careers/full-time-and-evening-mba-career-management/mentor-program/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Mentor Program page</a>.' }
-            ],
-            academics: [
-                { title: 'MBA Program Office & Your Core Team', content: 'The <a href="https://foster.uw.edu/academics/degree-programs/full-time-mba/academics/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">MBA Program Office</a> manages academic policies. Your Core Team is your the team assigned to you at the beginning of the quarter. Do your best to stay true to the committments you made at the beginning of the year to keep the team aligned and effective.' },
-                { title: '✨ Academic Concept Clarifier', isGemini: true, featureId: 'concept-clarifier', content: `
-                    <p class="mb-4 text-gray-600">Stuck on a core business concept? Enter a term below and get a simple explanation, an analogy, and key discussion points to help you master it.</p>
-                    <div class="space-y-4 mb-4">
-                        <div>
-                            <label for="concept-term" class="block text-sm font-medium text-gray-700">Business Concept</label>
-                            <input type="text" id="concept-term" placeholder="e.g., WACC, Porter's Five Forces" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm">
-                        </div>
+                    <div>
+                        <label for="career-function" class="block text-sm font-medium text-gray-700">Function</label>
+                        <input type="text" id="career-function" placeholder="e.g., Product Management" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm">
                     </div>
-                    <button id="generate-concept-explanation" class="w-full bg-uw-purple text-white font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors">✨ Clarify Concept</button>
-                    <div id="concept-clarifier-output" class="mt-4"></div>
-                `},
-                { title: 'Foster Business Library', content: 'The expert business research librarians are a key strategic asset, there are many resources within the library database that are useful like Pitchbook and IBISWorld. Visit the <a href="https://www.lib.washington.edu/foster" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Foster Business Library</a> website to book a consultation.' }
-            ],
-            community: [
-                { title: 'MBA Association (MBAA)', content: 'As the student government, the <a href="https://www.uwfostermbaa.com/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">MBAA</a> advocates for student interests and organizes major events. Participation offers a significant leadership opportunity.' },
-                 { title: '✨ Networking Email Draft', isGemini: true, featureId: 'email-draftsman', content: `
-                    <p class="mb-4 text-gray-600">Struggling with networking outreach? Enter the details below and get an AI-generated draft email to get you started.</p>
-                    <div class="space-y-4 mb-4">
-                        <div>
-                            <label for="email-recipient" class="block text-sm font-medium text-gray-700">Recipient's Name</label>
-                            <input type="text" id="email-recipient" placeholder="e.g., Jane Doe" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="email-company" class="block text-sm font-medium text-gray-700">Recipient's Company</label>
-                            <input type="text" id="email-company" placeholder="e.g., Microsoft" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="email-context" class="block text-sm font-medium text-gray-700">Reason for Connecting</label>
-                            <textarea id="email-context" rows="3" placeholder="e.g., Interested in their career path from consulting to tech, saw they are a Foster alum." class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm"></textarea>
-                        </div>
-                    </div>
-                    <button id="generate-email-draft" class="w-full bg-uw-purple text-white font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors">✨ Draft Networking Email</button>
-                    <div id="email-draftsman-output" class="mt-4"></div>
-                `},
-                { title: 'Student Clubs', content: 'Clubs are essential for professional development and networking. View a full list on the <a href="https://www.uwfostermbaa.com/clubs/#professional" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">MBAA Clubs page</a>.' },
-                { title: 'Signature Social Events', content: 'Weekly pub clubs and TG gatherings and Husky Football tailgates are primary venues for informal networking and community building across cohorts.' }
-            ],
-            leadership: [
-                { title: 'Fritzky Leadership Fellows Program', content: 'This selective program for second-years develops advanced coaching and mentoring skills. An excellent credential for careers in consulting or general management. Learn more at the <a href="https://foster.uw.edu/centers/leadership/students/leadership-fellows/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Fritzky Fellows page</a>.' },
-                { title: 'Applied Strategy & Case Competitions', content: 'The Applied Strategy project is a significant resume-building experience, providing a tangible consulting engagement with a major company. You will have an opportunity to select which projects are interesting to you prior to the start of the Winter quarter. Case competitions hone presentation and problem-solving skills.' },
-                { title: 'Board Fellows Program', content: 'This competitive program places students on a non-profit board, offering unique insights into organizational governance. It is ideal for those interested in social impact or nonprofit management. Visit the <a href="https://foster.uw.edu/centers/consulting-and-business-development-center/graduate-student-programs/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Board Fellows page</a> to apply.' },
-                { title: 'Buerk Center for Entrepreneurship', content: 'The <a href="https://foster.uw.edu/centers/buerk-ctr-entrepreneurship/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Buerk Center</a> is the campus hub for innovation. Courses like Angel Investing are highly valuable for students interested in venture capital or product management.' }
-            ],
-            wellbeing: [
-                 { title: '✨ Stress Management Tip Generator', isGemini: true, featureId: 'stress-generator', content: `
-                    <p class="mb-4 text-gray-600">Feeling overwhelmed? Select a common MBA stressor below to get actionable, AI-generated tips for managing your well-being.</p>
-                    <div class="space-y-4 mb-4">
-                        <div>
-                            <label for="stress-topic" class="block text-sm font-medium text-gray-700">Common Stressor</label>
-                            <select id="stress-topic" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm rounded-md">
-                                <option>Exam Week Pressure</option>
-                                <option>Recruiting Stress</option>
-                                <option>Team Conflict</option>
-                                <option>Time Management</option>
-                                <option>Feeling Imposter Syndrome</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button id="generate-stress-tips" class="w-full bg-uw-purple text-white font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors">✨ Get Wellness Tips</button>
-                    <div id="stress-generator-output" class="mt-4"></div>
-                `},
-                { title: 'Mental & Personal Safety Resources', content: 'The <a href="https://www.washington.edu/counseling/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">UW Counseling Center</a> offers confidential counseling. For academic accommodations, contact <a href="https://depts.washington.edu/uwdrs/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">Disability Resources for Students (DRS)</a> early. For safety concerns, contact <a href="https://www.washington.edu/safecampus/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">SafeCampus</a>.' },
-                { title: 'Physical Health & Fitness', content: 'The <a href="https://www.washington.edu/ima/" target="_blank" rel="noopener noreferrer" class="text-uw-purple hover:underline font-semibold">IMA</a> is a premier fitness facility. Regular physical activity is a proven method for stress management. Intramural sports are a popular option for team building and recreation.' }
-            ]
-        }
-    };
-
-    function createAccordion(containerId, items) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        items.forEach((item, index) => {
-            const div = document.createElement('div');
-            div.className = 'bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200';
-            let contentHtml = `<div class="p-5 pt-0 text-gray-600">${item.content}</div>`;
-            if (item.isGemini) {
-                contentHtml = `<div class="p-5 pt-4 text-gray-600">${item.content}</div>`;
-            }
-            
-            div.innerHTML = `
-                <button class="accordion-button w-full text-left p-5 flex justify-between items-center font-semibold text-lg text-gray-800 hover:bg-gray-100 transition-colors">
-                    <span>${item.title}</span>
-                    <span class="transform transition-transform duration-300">▼</span>
-                </button>
-                <div class="accordion-content">
-                    ${contentHtml}
                 </div>
-            `;
-            container.appendChild(div);
-        });
-    }
+                <button id="generate-career-path" class="w-full bg-uw-purple text-white font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors">✨ Generate Career Overview</button>
+                <div id="career-explorer-output" class="mt-4"></div>
+            `
+        },
+        { 
+            title: '✨ Networking Email Draft', 
+            content: `
+                <p class="mb-4 text-gray-600">Struggling with networking outreach? Enter the details below and get an AI-generated draft email to get you started.</p>
+                <div class="space-y-4 mb-4">
+                    <div>
+                        <label for="email-recipient" class="block text-sm font-medium text-gray-700">Recipient's Name</label>
+                        <input type="text" id="email-recipient" placeholder="e.g., Jane Doe" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="email-company" class="block text-sm font-medium text-gray-700">Recipient's Company</label>
+                        <input type="text" id="email-company" placeholder="e.g., Microsoft" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="email-context" class="block text-sm font-medium text-gray-700">Reason for Connecting</label>
+                        <textarea id="email-context" rows="3" placeholder="e.g., Interested in their career path from consulting to tech, saw they are a Foster alum." class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm"></textarea>
+                    </div>
+                </div>
+                <button id="generate-email-draft" class="w-full bg-uw-purple text-white font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors">✨ Draft Networking Email</button>
+                <div id="email-draftsman-output" class="mt-4"></div>
+            `
+        },
+        { 
+            title: '✨ Academic Concept Clarifier', 
+            content: `
+                <p class="mb-4 text-gray-600">Stuck on a core business concept? Enter a term below and get a simple explanation, an analogy, and key discussion points to help you master it.</p>
+                <div class="space-y-4 mb-4">
+                    <div>
+                        <label for="concept-term" class="block text-sm font-medium text-gray-700">Business Concept</label>
+                        <input type="text" id="concept-term" placeholder="e.g., WACC, Porter's Five Forces" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-uw-purple focus:border-uw-purple sm:text-sm">
+                    </div>
+                </div>
+                <button id="generate-concept-explanation" class="w-full bg-uw-purple text-white font-bold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors">✨ Clarify Concept</button>
+                <div id="concept-clarifier-output" class="mt-4"></div>
+            `
+        }
+    ];
 
-    createAccordion('career-accordion', data.accordions.career);
-    createAccordion('academics-accordion', data.accordions.academics);
-    createAccordion('community-accordion', data.accordions.community);
-    createAccordion('leadership-accordion', data.accordions.leadership);
-    createAccordion('wellbeing-accordion', data.accordions.wellbeing);
+    const aiAccordionContainer = document.getElementById('ai-accordion');
+    aiTools.forEach(tool => {
+        const div = document.createElement('div');
+        div.className = 'bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200';
+        div.innerHTML = `
+            <button class="accordion-button w-full text-left p-5 flex justify-between items-center font-semibold text-lg text-gray-800 hover:bg-gray-100 transition-colors">
+                <span>${tool.title}</span>
+                <span class="transform transition-transform duration-300">▼</span>
+            </button>
+            <div class="accordion-content">
+                <div class="p-5 pt-4 text-gray-600">${tool.content}</div>
+            </div>
+        `;
+        aiAccordionContainer.appendChild(div);
+    });
     
     async function callGemini(prompt, outputElement) {
         if (!outputElement) return;
-
         const accordionContent = outputElement.closest('.accordion-content');
-        
         const showLoading = () => {
             outputElement.innerHTML = '<div class="loader"></div>';
-            if (accordionContent) {
-                accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
-            }
+            if (accordionContent) accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
         };
-
         const showResult = (htmlContent) => {
             outputElement.innerHTML = htmlContent;
-            if (accordionContent) {
-                // Recalculate scrollHeight after content is inserted
-                accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
-            }
+            if (accordionContent) accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
         };
-
         showLoading();
-
-        // This is the URL for your Netlify function
-        const functionUrl = '/.netlify/functions/call-gemini';
-
+        const apiKey = ""; 
+        const isPreview = !window.location.hostname.includes('netlify.app');
+        const apiUrl = isPreview 
+            ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`
+            : '/.netlify/functions/call-gemini';
+        const payload = isPreview 
+            ? { contents: [{ role: "user", parts: [{ text: prompt }] }] }
+            : { prompt: prompt };
         try {
-            const response = await fetch(functionUrl, {
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: prompt }) // Send the prompt in the body
+                body: JSON.stringify(payload)
             });
-
             const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error?.message || 'API request failed');
-            }
-
+            if (!response.ok) throw new Error(result.error?.message || 'API request failed');
             const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
-
             if (text) {
                 const html = marked.parse(text);
                 showResult(`<div class="gemini-output">${html}</div>`);
@@ -402,13 +351,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 let errorMessage = "Could not retrieve a valid response.";
                 if (result.promptFeedback?.blockReason) {
                     errorMessage = `Request was blocked. Reason: ${result.promptFeedback.blockReason}.`;
-                } else {
-                    errorMessage = "Received an empty or invalid response from the API. This can happen due to safety filters or network issues. Please try again with a different prompt.";
                 }
                 showResult(`<div class="gemini-output text-red-600">${errorMessage}</div>`);
             }
         } catch (error) {
-            console.error('Error calling Netlify function:', error);
+            console.error('Error calling API:', error);
             showResult(`<div class="gemini-output text-red-600">An error occurred. Please check the console for details.</div>`);
         }
     }
@@ -418,13 +365,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const industry = document.getElementById('career-industry').value;
         const func = document.getElementById('career-function').value;
         if (!func) {
-            outputElement.innerHTML = `<div class="gemini-output text-yellow-800 bg-yellow-50 border-yellow-300">Please enter a function to proceed.</div>`;
+            outputElement.innerHTML = `<div class="gemini-output text-yellow-800 bg-yellow-50 border-yellow-300">Please enter a function.</div>`;
             return;
         }
-        const prompt = `As an expert MBA career coach at the University of Washington Foster School of Business, provide a concise overview for a first-year MBA student about pursuing a career in the "${industry}" industry with a function in "${func}". Use Markdown for formatting. Cover the following sections using bold headers:
-        - **Role Overview:** What are the key responsibilities and day-to-day activities?
-        - **Essential Skills:** What core skills developed at Foster are most critical for success in this role?
-        - **Recruiting Timeline & Key Actions:** What is the typical recruiting timeline (Autumn, Winter, Spring) and what are 1-2 key actions the student should take each quarter?`;
+        const prompt = `As an expert MBA career coach at UW Foster, provide a concise overview for a first-year MBA student about a career in "${industry}" as a "${func}". Use Markdown. Cover: **Role Overview**, **Essential Skills**, and **Recruiting Timeline & Key Actions**.`;
         callGemini(prompt, outputElement);
     });
 
@@ -434,10 +378,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const company = document.getElementById('email-company').value;
         const context = document.getElementById('email-context').value;
         if (!recipient || !company || !context) {
-            outputElement.innerHTML = `<div class="gemini-output text-yellow-800 bg-yellow-50 border-yellow-300">Please fill out all fields to generate an email draft.</div>`;
+            outputElement.innerHTML = `<div class="gemini-output text-yellow-800 bg-yellow-50 border-yellow-300">Please fill out all fields.</div>`;
             return;
         }
-        const prompt = `As a current UW Foster MBA student, draft a concise and professional networking email to "${recipient}" at "${company}". The email must be two paragraphs maximum. The first paragraph should introduce me as a first-year Foster MBA and state my reason for connecting: "${context}". The second paragraph should be very brief (2-3 sentences), emphasize our shared Foster background, and then make a clear and respectful ask for a brief 15-20 minute chat. Use Markdown for formatting. Sign off as "A Foster MBA Student".`;
+        const prompt = `As a current UW Foster MBA student, draft a concise, professional, two-paragraph networking email to "${recipient}" at "${company}". Paragraph 1: Introduce myself and state my reason for connecting: "${context}". Paragraph 2: Briefly emphasize our shared Foster background and make a clear ask for a 15-20 minute chat. Use Markdown. Sign off as "A Foster MBA Student".`;
         callGemini(prompt, outputElement);
     });
 
@@ -445,73 +389,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const outputElement = e.target.nextElementSibling;
         const concept = document.getElementById('concept-term').value;
         if (!concept) {
-            outputElement.innerHTML = `<div class="gemini-output text-yellow-800 bg-yellow-50 border-yellow-300">Please enter a business concept to clarify.</div>`;
+            outputElement.innerHTML = `<div class="gemini-output text-yellow-800 bg-yellow-50 border-yellow-300">Please enter a concept.</div>`;
             return;
         }
-        const prompt = `As an expert MBA professor, explain the business concept of "${concept}" in a simple, easy-to-understand way for a first-year student. Structure your response in three parts using Markdown bold headers: **What It Is:** (a concise definition), **Simple Analogy:** (a relatable, real-world analogy to explain it), and **Key Discussion Points:** (2-3 bullet points a study group could discuss).`;
+        const prompt = `As an MBA professor, explain "${concept}" simply for a first-year student. Use Markdown bold headers: **What It Is:** (definition), **Simple Analogy:** (real-world analogy), and **Key Discussion Points:** (2-3 bullet points).`;
         callGemini(prompt, outputElement);
     });
-
-    document.getElementById('generate-stress-tips')?.addEventListener('click', (e) => {
-        const outputElement = e.target.nextElementSibling;
-        const stressor = document.getElementById('stress-topic').value;
-        const prompt = `As a university wellness coach specializing in graduate students, provide 3-4 concise, actionable, and supportive tips for an MBA student dealing with stress from "${stressor}". Frame the advice in a positive and encouraging tone. Use a Markdown numbered list for the tips.`;
-        callGemini(prompt, outputElement);
-    });
-
 
     document.querySelectorAll('.accordion-button').forEach(button => {
         button.addEventListener('click', () => {
             const content = button.nextElementSibling;
-            const arrow = button.querySelector('span:last-child');
             const isOpening = !content.style.maxHeight;
-
-            button.closest('.space-y-4').querySelectorAll('.accordion-content').forEach(c => {
-                if (c !== content) {
-                    c.style.maxHeight = null;
-                    c.previousElementSibling.querySelector('span:last-child').classList.remove('rotate-180');
-                }
-            });
-
             if (isOpening) {
                 content.style.maxHeight = content.scrollHeight + "px";
-                arrow.classList.add('rotate-180');
+                button.querySelector('span:last-child').classList.add('rotate-180');
             } else {
                 content.style.maxHeight = null;
-                arrow.classList.remove('rotate-180');
-            }
-        });
-    });
-    
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    mobileMenuButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
-
-    document.querySelectorAll('#mobile-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.add('hidden');
-        });
-    });
-    
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('section[id]');
-    const headerHeight = document.getElementById('header').offsetHeight;
-
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - headerHeight - 20;
-            if (pageYOffset >= sectionTop) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').substring(1) === current) {
-                link.classList.add('active');
+                button.querySelector('span:last-child').classList.remove('rotate-180');
             }
         });
     });
